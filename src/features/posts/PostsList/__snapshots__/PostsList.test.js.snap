@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<PostsList/> Has no posts in posts prop snapshot test 1`] = `
+<div>
+  is Loading
+</div>
+`;
+
+exports[`<PostsList/> Has posts in posts prop snapshot test 1`] = `
+<PostsList
+  posts={
+    Array [
+      Object {
+        "id": 1,
+        "title": "Post 1",
+      },
+      Object {
+        "id": 2,
+        "title": "Post 2",
+      },
+    ]
+  }
+/>
+`;

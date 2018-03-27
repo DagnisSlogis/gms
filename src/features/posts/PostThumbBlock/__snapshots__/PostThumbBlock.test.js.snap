@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<PostThumbBlock/> Has post in post prop renders correctly 1`] = `
+<styled.div>
+  <styled.img />
+  <styled.span />
+  <styled.h3>
+    Title 1
+  </styled.h3>
+</styled.div>
+`;
