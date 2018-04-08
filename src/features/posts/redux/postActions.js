@@ -12,16 +12,16 @@ type dispatchedObject = {
 }
 
 export const fetchPostsBegin = (): dispatchedObject => ({
-  type: types.POST_FETCH
+  type: types.POSTS_FETCH
 });
 
 export const fetchPostsSuccess = (payload: Object): dispatchedObjectWithPayload  => ({
-  type: types.POST_FETCH_SUCCESS,
+  type: types.POSTS_FETCH_SUCCESS,
   payload
 });
 
 export const fetchPostError = (payload: Object): dispatchedObjectWithPayload => ({
-  type: types.POST_FETCH_ERROR,
+  type: types.POSTS_FETCH_ERROR,
   payload
 });
 

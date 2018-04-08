@@ -1,9 +1,12 @@
 // @flow
 export const getSmallThumbnail = (link: string): string => {
-  let re = /(?:\.([^.]+))?$/;
-  let ext = re.exec(link)[0];
-  link = link.replace(/\.[^/.]+$/, "");
-  return link + "-390x410" + ext;
+  if (link) {
+    let re = /(?:\.([^.]+))?$/;
+    let ext = re.exec(link)[0];
+    link = link.replace(/\.[^/.]+$/, "");
+    return link + "-390x410" + ext;
+  }
+  return "";
 };
 
 export const formatToLabel = (format: string): string => {

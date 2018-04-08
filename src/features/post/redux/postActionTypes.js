@@ -1,3 +1,3 @@
-export const FETCH_POST = "FETCH_POST";
-export const FETCH_POST_SUCCESS = "FETCH_POST_SUCCESS";
-export const FETCH_POST_ERROR = "FETCH_POST";
+export const POST_FETCH = "POST_FETCH";
+export const POST_FETCH_SUCCESS = "POST_FETCH_SUCCESS";
+export const POST_FETCH_ERROR = "POST_FETCH";

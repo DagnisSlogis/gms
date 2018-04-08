@@ -15,12 +15,14 @@ const PostsListBlock = styled.div`
 `;
 
 type Props = {
-  posts: Array<Object>
-}
+  posts: Array<Object>,
+  openPost: Function
+};
 
 class PostsList extends PureComponent<Props> {
   static propTypes = {
-    posts: PropTypes.array.isRequired
+    posts: PropTypes.array.isRequired,
+    openPost: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -31,7 +33,11 @@ class PostsList extends PureComponent<Props> {
     <PostsListBlock>
       <StackGrid columnWidth={328} monitorImagesLoaded={true}>
         {this.props.posts.map(post => (
-          <PostThumbBlock key={post.id} post={post} />
+          <PostThumbBlock
+            key={post.id}
+            post={post}
+            onClick={this.props.openPost}
+          />
         ))}
       </StackGrid>
     </PostsListBlock>

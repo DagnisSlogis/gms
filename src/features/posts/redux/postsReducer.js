@@ -7,11 +7,11 @@ export default function postsReducer(
   action: Object
 ): Array<Object> {
   switch (action.type) {
-    case types.POST_FETCH_SUCCESS:
-      return [...action.payload];
+    case types.POSTS_FETCH_SUCCESS:
+      return [...state, ...action.payload];
 
-    case types.POST_FETCH:
-    case types.POST_FETCH_ERROR:
+    case types.POSTS_FETCH:
+    case types.POSTS_FETCH_ERROR:
     default:
       return state;
   }
