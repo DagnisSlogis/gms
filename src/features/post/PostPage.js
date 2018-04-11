@@ -8,6 +8,8 @@ import { isEmpty } from "lodash";
 import moment from "moment";
 import renderHTML from "react-render-html";
 
+import { HearthButton, PostTitle } from "../../common/components";
+
 const Post = styled.div``;
 
 const PostHeader = styled.div`
@@ -34,48 +36,9 @@ const Cover = styled.div`
   z-index: 1;
 `;
 
-const Title = styled.h2`
-  color: #474747;
-  font-size: 36px;
-  line-height: 1.2;
-  margin: 0 20px 15px 20px;
-`;
-
 const Toolbar = styled.div`
   width: 100%;
   margin: 10px 20px;
-`;
-
-const LikeButton = styled.button`
-  font-size: 12px;
-  border: 1px solid #f83b60;
-  color: #f83b60;
-  border-radius: 4px;
-  padding: 8px 15px 5px 15px;
-  cursor: pointer;
-  transition: 0.3s all ease-in-out;
-
-  img {
-    width: 20px;
-    vertical-align: middle;
-    margin-right: 7px;
-    margin-bottom: 2px;
-  }
-
-  &:hover {
-    color: white;
-    background: #f83b60;
-
-    img {
-      svg {
-        fill: white;
-      }
-    }
-  }
-
-  &:focus, &:active {
-    outline-color: #f83b60;
-  }
 `;
 
 const PostDate = styled.span`
@@ -109,7 +72,7 @@ class PostPage extends Component {
   componentDidMount = () => {
     const { post, postId, fetchPost } = this.props;
     if (isEmpty(post)) fetchPost(postId);
-  }
+  };
 
   render = () => {
     const { post } = this.props;
@@ -120,12 +83,9 @@ class PostPage extends Component {
             <Cover image={post._embedded["wp:featuredmedia"][0].source_url} />
           </PostHeader>
           <PostBody>
-            <Title>{post.title.rendered}</Title>
+            <PostTitle text={post.title.rendered} />
             <Toolbar>
-              <LikeButton>
-                <img src={require("../../assets/images/post/like.svg")} />
-                MAN PATĪK
-              </LikeButton>
+              <HearthButton />
               <PostDate>
                 {moment(post.date_gmt).format("D. MMM. YYYY.")}
               </PostDate>

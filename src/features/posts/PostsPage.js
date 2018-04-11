@@ -22,12 +22,14 @@ type Props = {
   post: Object,
   fetchPosts: Function,
   fetchPost: Function,
-  history: Object
+  history: Object,
+  postLoading: boolean
 };
 
 type State = {
   page: number,
-  posterModalOpen: boolean
+  posterModalOpen: boolean,
+  selectedPost: Object
 };
 
 export class PostsPage extends Component<Props, State> {
@@ -36,12 +38,14 @@ export class PostsPage extends Component<Props, State> {
     post: PropTypes.object,
     fetchPosts: PropTypes.func.isRequired,
     fetchPost: PropTypes.func.isRequired,
-    history: PropTypes.object.isRequired
+    history: PropTypes.object.isRequired,
+    postLoading: PropTypes.bool.isRequired
   };
 
   state = {
     page: 1,
-    posterModalOpen: false
+    posterModalOpen: false,
+    selectedPost: {}
   };
 
   componentDidMount = (): void => {
@@ -62,12 +66,13 @@ export class PostsPage extends Component<Props, State> {
     }
   };
 
-  openPost = (event: any, id: string, type: string): void => {
+  openPost = (event: any, post: Object): void => {
     const { history, fetchPost } = this.props;
-    fetchPost(id);
-    switch (type) {
+    fetchPost(post.id);
+    this.setState({ selectedPost: post });
+    switch (post.format) {
       case "standard":
-        history.push(`/post/${id}`);
+        history.push(`/post/${post.id}`);
         break;
       case "image":
         this.onOpenModal();
@@ -88,7 +93,8 @@ export class PostsPage extends Component<Props, State> {
         status={this.state.posterModalOpen}
         onOpen={this.onOpenModal}
         onClose={this.onCloseModal}
-        post={this.props.post}
+        post={this.state.selectedPost}
+        loading={this.props.postLoading}
       />
       <PostsList posts={this.props.posts} openPost={this.openPost} />
     </Page>
@@ -98,7 +104,7 @@ export class PostsPage extends Component<Props, State> {
 const mapStateToProps = (state, ownProps) => {
   return {
     posts: state.posts,
-    post: state.post
+    postLoading: state.postLoading
   };
 };
 

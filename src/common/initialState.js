@@ -1,4 +1,5 @@
 export default {
   posts: [],
-  post: {}
+  post: {},
+  postLoading: false
 };

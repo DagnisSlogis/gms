@@ -38,13 +38,6 @@ export const ModalBody = styled.div`
   padding: 22px 25px;
 `;
 
-export const Title = styled.h2`
-  color: #474747;
-  font-size: 36px;
-  line-height: 1.2;
-  margin: 0 0 15px 0;
-`;
-
 export const PosterText = styled.div`
   font-size: 16px;
   color: #515151;
@@ -58,5 +51,15 @@ export const PosterText = styled.div`
   img.aligncenter {
     display: block;
     margin: 25px auto;
+  }
+
+  a {
+    font-weight: 500;
+    color: #3A9BF5;
+    text-decoration: none;
+  }
+
+  a:hover, a:active, a:focus {
+    color: #2592F8;
   }
 `;
