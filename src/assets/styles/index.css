@@ -3,6 +3,8 @@
   src: url("../fonts/AEH.ttf") format("truetype");
 }
 
+@import url('https://fonts.googleapis.com/css?family=PT+Serif:400,700&subset=latin-ext');
+
 body {
   margin: 0;
   padding: 0;

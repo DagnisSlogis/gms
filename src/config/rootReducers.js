@@ -1,12 +1,10 @@
 import { combineReducers } from "redux";
 
 // Reducers
-import posts from "../features/posts/redux/postsReducer";
-import post from "../features/post/redux/postReducer";
-import postLoading from "../features/post/redux/postLoadingReducer";
+import posts from "../features/posts/modules/posts";
+import post from "../features/post/modules/post";
 
 export default combineReducers({
   posts,
   post,
-  postLoading
 });

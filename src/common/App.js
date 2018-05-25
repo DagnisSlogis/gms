@@ -1,6 +1,6 @@
 import React from "react";
-import PostsPage from "../features/posts/PostsPage";
-import PostPage from "../features/post/PostPage";
+import { PostsPageConnected } from "../features/posts";
+import { PostPageConnected } from "../features/post";
 import { BrowserRouter, Route } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
@@ -9,8 +9,8 @@ const App = () => (
   <BrowserRouter>
     <div>
       <Navbar/>
-      <Route exact path="/" component={PostsPage} />
-      <Route path="/post/:id" component={PostPage} />
+      <Route exact path="/" component={PostsPageConnected} />
+      <Route path="/post/:id" component={PostPageConnected} />
     </div>
   </BrowserRouter>
 );
