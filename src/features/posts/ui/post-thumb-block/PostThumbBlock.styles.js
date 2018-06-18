@@ -31,7 +31,7 @@ export const PostBlock = styled.div`
   position: relative;
   width: 290px;
   padding-bottom: 15px;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
   cursor: pointer;
   border-bottom: 1px dashed #d7d7d7;
 

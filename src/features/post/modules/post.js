@@ -1,12 +1,14 @@
 import axios from "axios";
 
 const POST_FETCH = "POST_FETCH";
+const POST_OPEN = "POST_OPEN";
 const POST_FETCH_SUCCESS = "POST_FETCH_SUCCESS";
 const POST_FETCH_ERROR = "POST_FETCH";
 
 export default function reducer(state = {}, action) {
   switch (action.type) {
     case POST_FETCH_SUCCESS:
+    case POST_OPEN:
       return action.payload;
 
     case POST_FETCH:
@@ -41,3 +43,9 @@ export const fetchPost = id => dispatch => {
     })
     .catch(err => dispatch(fetchPostError(err)));
 };
+
+export const openPost = payload => dispatch =>
+  dispatch({
+    type: POST_OPEN,
+    payload
+  });

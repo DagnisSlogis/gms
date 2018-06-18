@@ -3,12 +3,12 @@ import { PostsPageConnected } from "../features/posts";
 import { PostPageConnected } from "../features/post";
 import { BrowserRouter, Route } from "react-router-dom";
 
-import Navbar from "./components/Navbar";
+import { NavBarWithRouter } from "./components/Navbar";
 
 const App = () => (
   <BrowserRouter>
     <div>
-      <Navbar/>
+      <NavBarWithRouter />
       <Route exact path="/" component={PostsPageConnected} />
       <Route path="/post/:id" component={PostPageConnected} />
     </div>

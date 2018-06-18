@@ -1,0 +1,11 @@
+export { Clases } from "./Clases";
+export { Contacts } from "./Contacts";
+export { Course } from "./Course";
+export { Documents } from "./Documents";
+export { History } from "./History";
+export { Idea } from "./Idea";
+export { Info } from "./Info";
+export { Peoples } from "./Peoples";
+export { School } from "./School";
+export { Subjects } from "./School";
+export { Timetable } from "./Timetable";

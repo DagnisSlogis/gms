@@ -11,15 +11,16 @@ const NavBtn = styled.div`
 
 const NavLink = styled(Link)`
   display: inline-block;
-  color: #868a8e;
+  color: ${props => props.color};
   font-size: 14px;
   border: 0;
   cursor: pointer;
   padding: 27px 15px;
   text-decoration: none;
+  transition: all .3s;
 
   &:hover {
-    color: #3a9cf5;
+    color: ${props => (props.light ? "#ccc" : "#3a9cf5")};
   }
 
   &:hover,
@@ -37,7 +38,12 @@ export default class NavButton extends PureComponent {
   static propTypes = {
     label: PropTypes.string.isRequired,
     link: PropTypes.string.isRequired,
-    subLinks: PropTypes.array
+    subLinks: PropTypes.array,
+    light: PropTypes.string
+  };
+
+  static defaultProps = {
+    color: "#868a8e"
   };
 
   onMouseEnter = event => this.setState({ isHovered: true });
@@ -45,7 +51,11 @@ export default class NavButton extends PureComponent {
 
   render = () => (
     <NavBtn onMouseLeave={this.onMouseLeave}>
-      <NavLink to={this.props.link} onMouseEnter={this.onMouseEnter}>
+      <NavLink
+        to={this.props.link}
+        onMouseEnter={this.onMouseEnter}
+        color={this.props.color}
+      >
         {this.props.label}
       </NavLink>
       {this.props.subLinks && (

@@ -94,19 +94,19 @@ export default class Dropdown extends PureComponent {
     subLinks: PropTypes.array.isRequired
   };
 
-  render = () => (
-    <DropdownContainer active={this.props.active}>
-      {this.props.subLinks.map(subLink => (
-        <Item>
-          {subLink.type && (
-            <Image
-              src={require(`../../assets/images/navbar/${subLink.type}.svg`)}
-              alt={subLink.type}
-            />
-          )}
-          {subLink.label}
-        </Item>
-      ))}
-    </DropdownContainer>
-  );
+  render = () => {
+    const { active, subLinks } = this.props;
+
+    return (
+      <DropdownContainer active={active}>
+        {subLinks.map(subLink => (
+          <div>
+            <Item>
+              {subLink.label}
+            </Item>
+          </div>
+        ))}
+      </DropdownContainer>
+    );
+  }
 }
