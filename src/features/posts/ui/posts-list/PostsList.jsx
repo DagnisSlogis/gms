@@ -31,7 +31,7 @@ class PostsList extends PureComponent<Props> {
 
   render = () => (
     <PostsListBlock>
-      <StackGrid columnWidth={328} monitorImagesLoaded={true}>
+      <StackGrid columnWidth={328} monitorImagesLoaded >
         {this.props.posts.map(post => (
           <PostThumbBlock
             key={post.id}

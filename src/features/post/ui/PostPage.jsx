@@ -1,13 +1,11 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import styled from "styled-components";
 import { fetchPost } from "../modules/post";
 import { isEmpty } from "lodash";
 import renderHTML from "react-render-html";
 
-import { PostTitle, PostToolbar } from "../../../common/components";
+import { PostTitle, PostToolbar } from "../../post-common";
 import { Post, PostHeader, PostBody, Cover, PostText } from "./PostPage.style";
 
 class PostPage extends Component {

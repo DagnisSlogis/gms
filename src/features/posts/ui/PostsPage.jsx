@@ -3,21 +3,15 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { fetchPosts } from "../modules/posts";
 import { openPost } from "../../post/modules/post";
-import isEmpty from "lodash";
 
-import Logo from "../../../assets/images/logo.svg";
 import School from "../../../assets/images/school.svg";
 import PostsList from "./posts-list/PostsList";
 import PosterModal from "./modals/PosterModal";
 
 import {
   Page,
-  ModalBtn,
   SchoolSVG,
   Header,
-  LogoBlock,
-  TopTitle,
-  BottomTitle
 } from "./PostsPage.style";
 
 export class PostsPage extends Component {

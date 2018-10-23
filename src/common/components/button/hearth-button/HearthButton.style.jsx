@@ -1,8 +1,7 @@
-import React, { PureComponent } from "react";
-import PropTypes from "prop-types";
 import styled from "styled-components";
 
-const LikeButton = styled.button`
+
+export const LikeButton = styled.button`
   font-size: 12px;
   border: 1px solid #f83b60;
   color: #f83b60;
@@ -33,12 +32,3 @@ const LikeButton = styled.button`
     outline-color: #f83b60;
   }
 `;
-
-export default class HearthButton extends PureComponent {
-  render = () => (
-    <LikeButton>
-      <img src={require("../../assets/images/post/like.svg")} />
-      MAN PATĪK
-    </LikeButton>
-  );
-}

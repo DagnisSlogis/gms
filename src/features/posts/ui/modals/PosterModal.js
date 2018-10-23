@@ -13,8 +13,7 @@ import {
   ModalBody,
   PosterText
 } from "./PosterModal.style";
-import HearthButton from "styled-components";
-import { PostTitle, PostToolbar } from "../../../../common/components";
+import { PostTitle, PostToolbar } from "../../../post-common";
 
 export default class PosterModal extends PureComponent {
   static propTypes = {

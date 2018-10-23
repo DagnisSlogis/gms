@@ -1,6 +1,5 @@
-import React, { PureComponent } from "react";
-import PropTypes from "prop-types";
 import styled, { keyframes } from "styled-components";
+
 
 const fadeIn = keyframes`
   0% {
@@ -24,7 +23,7 @@ const fadeOut = keyframes`
   }
 `;
 
-const DropdownContainer = styled.div`
+export const DropDownContainer = styled.div`
   position: absolute;
   top: 60px;
   left: 0;
@@ -51,15 +50,7 @@ const DropdownContainer = styled.div`
   }
 `;
 
-const Image = styled.img`
-  vertical-align: bottom;
-  margin-right: 15px;
-  height: 16px;
-  width: auto;
-  vertical-align: sub;
-`;
-
-const Item = styled.div`
+export const Item = styled.div`
   padding: 15px 15px;
   font-size: 14px;
   color: #868A8E;
@@ -87,26 +78,3 @@ const Item = styled.div`
     }
   }
 `;
-
-export default class Dropdown extends PureComponent {
-  static propTypes = {
-    active: PropTypes.bool.isRequired,
-    subLinks: PropTypes.array.isRequired
-  };
-
-  render = () => {
-    const { active, subLinks } = this.props;
-
-    return (
-      <DropdownContainer active={active}>
-        {subLinks.map(subLink => (
-          <div>
-            <Item>
-              {subLink.label}
-            </Item>
-          </div>
-        ))}
-      </DropdownContainer>
-    );
-  }
-}
