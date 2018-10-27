@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { fetchPosts } from "../modules/posts";
-import { openPost } from "../../post/modules/post";
+import { noop } from 'lodash';
 
+import { fetchPosts } from "../modules/posts";
+import { incrementPostsPage } from '../modules/postsPage';
+import { openPost } from "../../post/modules/post";
 import School from "../../../assets/images/school.svg";
 import PostsList from "./posts-list/PostsList";
 import PosterModal from "./modals/PosterModal";
-
 import {
   Page,
   SchoolSVG,
@@ -18,22 +19,31 @@ export class PostsPage extends Component {
   static propTypes = {
     posts: PropTypes.array,
     post: PropTypes.object,
-    fetchPosts: PropTypes.func.isRequired,
-    openPost: PropTypes.func.isRequired,
-    history: PropTypes.object.isRequired,
-    postLoading: PropTypes.bool.isRequired
+    page: PropTypes.number,
+    fetchPosts: PropTypes.func,
+    openPost: PropTypes.func,
+    history: PropTypes.object,
+    postLoading: PropTypes.bool,
   };
 
+  static defaultProps = {
+    posts: [],
+    post: {},
+    fetchPosts: noop,
+    openPost: noop,
+  }
+
   state = {
-    page: 1,
     posterModalOpen: false,
     selectedPost: {},
     loadingMorePosts: false
   };
 
   componentDidMount = () => {
+    const { fetchPosts, posts, page } = this.props;
+
     window.addEventListener("scroll", this.fetchMorePostsWhenBotReached);
-    this.props.fetchPosts(this.state.page);
+    if(!posts.length) fetchPosts(page);
   };
 
   componentWillUnmount = () => {
@@ -48,16 +58,23 @@ export class PostsPage extends Component {
     }
   }
 
-  fetchMorePostsWhenBotReached = event => {
+  fetchMorePostsWhenBotReached = () => {
+    const {
+      page,
+      fetchPosts,
+      incrementPostsPage,
+    } = this.props;
+    const { loadingMorePosts } = this.state;
+
     if (
-      !this.state.loadingMorePosts &&
+      !loadingMorePosts &&
       window.innerHeight + window.scrollY >= document.body.offsetHeight
     ) {
-      this.setState(prevState => ({
-        page: prevState.page + 1,
-        loadingMorePosts: true
-      }));
-      this.props.fetchPosts(this.state.page);
+      const nextPage = page + 1;
+
+      this.setState(prevState => ({ loadingMorePosts: true }));
+      fetchPosts(nextPage);
+      incrementPostsPage();
     }
   };
 
@@ -83,22 +100,32 @@ export class PostsPage extends Component {
   onCloseModal = () => this.setState({ posterModalOpen: false });
 
   render = () => {
+    const {
+      postLoading,
+      posts,
+    } = this.props;
+    const {
+      posterModalOpen,
+      selectedPost,
+      loadingMorePosts,
+    } = this.state;
+
     return (
       <Page>
         <Header>
           <SchoolSVG src={School} />
         </Header>
-        {this.state.posterModalOpen && (
+        {posterModalOpen && (
           <PosterModal
-            status={this.state.posterModalOpen}
+            status={posterModalOpen}
             onOpen={this.onOpenModal}
             onClose={this.onCloseModal}
-            post={this.state.selectedPost}
-            loading={this.props.postLoading}
+            post={selectedPost}
+            loading={postLoading}
           />
         )}
-        <PostsList posts={this.props.posts} openPost={this.openPost} />
-        { this.state.loadingMorePosts && (<p>Loading more posts!</p>) }
+        <PostsList posts={posts} openPost={this.openPost} />
+        {loadingMorePosts && (<p>Loading more posts!</p>) }
       </Page>
     );
   };
@@ -107,13 +134,15 @@ export class PostsPage extends Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     posts: state.posts,
-    postLoading: state.postLoading
+    postLoading: state.postLoading,
+    page: state.postsPage,
   };
 };
 
 const mapDispatchToProps = {
   fetchPosts,
-  openPost
+  openPost,
+  incrementPostsPage,
 };
 
 export const PostsPageConnected = connect(mapStateToProps, mapDispatchToProps)(

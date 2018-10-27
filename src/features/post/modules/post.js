@@ -30,6 +30,7 @@ const fetchPostError = (payload) => ({ type: POST_FETCH_ERROR, payload });
 
 export const fetchPost = id => dispatch => {
   dispatch(fetchPostBegin());
+
   return get(`${API_URL}/posts/${id}?_embed`)
     .then(({ data }) => dispatch(fetchPostSuccess(data)))
     .catch(err => dispatch(fetchPostError(err)));

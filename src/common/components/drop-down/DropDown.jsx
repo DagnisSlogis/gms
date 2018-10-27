@@ -6,7 +6,7 @@ import { DropDownContainer, Item } from './DropDown.style';
 
 export const DropDown = ({ active, subLinks }) => (
   <DropDownContainer active={active}>
-    {subLinks.map(subLink => <Item>{subLink.label}</Item>)}
+    {subLinks.map(({ label }) => <Item key={`item-${label}`}>{label}</Item>)}
   </DropDownContainer>
 );
 
