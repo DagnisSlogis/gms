@@ -7,5 +7,5 @@ export { Idea } from "./Idea";
 export { Info } from "./Info";
 export { Peoples } from "./Peoples";
 export { School } from "./School";
-export { Subjects } from "./School";
+export { Subjects } from "./Subjects";
 export { Timetable } from "./Timetable";
