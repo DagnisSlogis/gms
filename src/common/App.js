@@ -5,6 +5,7 @@ import { BrowserRouter, Route } from "react-router-dom";
 
 import { NavbarWithRouter } from "./components/navbar";
 
+
 const App = () => (
   <BrowserRouter>
     <div>
