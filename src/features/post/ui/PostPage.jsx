@@ -1,49 +1,56 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { fetchPost } from "../modules/post";
 import { isEmpty } from "lodash";
 import renderHTML from "react-render-html";
 
+import { fetchPost } from "../modules/post";
 import { PostTitle, PostToolbar } from "../../post-common";
 import { Post, PostHeader, PostBody, Cover, PostText } from "./PostPage.style";
+
 
 class PostPage extends Component {
   static propTypes = {
     fetchPost: PropTypes.func,
-    postId: PropTypes.string.isRequired
+    postId: PropTypes.string,
   };
 
   componentDidMount = () => {
     const { post, postId, fetchPost } = this.props;
-    if (isEmpty(post)) fetchPost(postId);
+    if (isEmpty(post) && postId) fetchPost(postId);
   };
 
   render = () => {
     const { post } = this.props;
-    if (!isEmpty(post)) {
-      return (
-        <Post>
-          <PostHeader>
-            <Cover image={post._embedded["wp:featuredmedia"][0].source_url} />
-          </PostHeader>
-          <PostBody>
-            <PostTitle text={post.title.rendered} />
-            <PostToolbar date={post.date_gmt} />
-            <PostText>{renderHTML(post.content.rendered)}</PostText>
-          </PostBody>
-        </Post>
-      );
-    } else return null;
+
+    if (isEmpty(post)) return null;
+
+    const {
+      _embedded,
+      title: { rendered: title },
+      date_gmt,
+      content: { rendered: content }
+    } = post;
+
+    return (
+      <Post>
+        <PostHeader>
+          <Cover image={_embedded["wp:featuredmedia"][0].source_url} />
+        </PostHeader>
+        <PostBody>
+          <PostTitle text={title} />
+          <PostToolbar date={date_gmt} />
+          <PostText>{renderHTML(content)}</PostText>
+        </PostBody>
+      </Post>
+    );
   };
 }
 
-const mapStateToProps = (state, ownProps) => {
-  return {
-    postId: ownProps.match.params.id,
-    post: state.post
-  };
-};
+const mapStateToProps = ({ post }, { match: { params: { id } } }) => ({
+  postId: id,
+  post,
+});
 
 const mapDispatchToProps = {
   fetchPost

@@ -26,7 +26,6 @@ export const Poster = styled.img `
 `;
 
 export const ModalTop = styled.div `
-  position: relative;
   overflow: hidden;
   height: auto;
   max-height: 620px;
@@ -35,7 +34,7 @@ export const ModalTop = styled.div `
 `;
 
 export const ModalBody = styled.div `
-  padding: 30px 35px;
+  padding: 20px 35px;
 `;
 
 export const PosterText = styled.div `

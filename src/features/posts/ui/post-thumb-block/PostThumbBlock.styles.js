@@ -10,6 +10,12 @@ export const PostThumbImage = styled.img`
   background-position: center;
 `;
 
+export const GalleryThumb = styled.div`
+  clip-path: polygon(0 0, 100% 0, 100% 96%, 0 88%);
+  width: 100%;
+  height: 305px;
+`;
+
 export const PostTypeBadge = styled.span`
   position: absolute;
   font-size: 12px;

@@ -1,10 +1,12 @@
 import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-
-import LoaderHOC from "../../../../HOC/LoaderHOC";
 import StackGrid from "react-stack-grid";
+
+import LoaderHOC from "HOC/LoaderHOC";
+
 import PostThumbBlock from "../post-thumb-block/PostThumbBlock";
+
 
 const PostsListBlock = styled.div`
   max-width: 1024px;
@@ -14,34 +16,33 @@ const PostsListBlock = styled.div`
   overflow: hidden;
 `;
 
-type Props = {
-  posts: Array<Object>,
-  openPost: Function
-};
-
-class PostsList extends PureComponent<Props> {
+class PostsList extends PureComponent {
   static propTypes = {
     posts: PropTypes.array.isRequired,
-    openPost: PropTypes.func.isRequired
+    openPost: PropTypes.func
   };
 
   static defaultProps = {
     posts: []
   };
 
-  render = () => (
-    <PostsListBlock>
-      <StackGrid columnWidth={328} monitorImagesLoaded >
-        {this.props.posts.map(post => (
-          <PostThumbBlock
-            key={post.id}
-            post={post}
-            onClick={this.props.openPost}
-          />
-        ))}
-      </StackGrid>
-    </PostsListBlock>
-  );
+  render() {
+    const { posts, openPost } = this.props;
+
+    return (
+      <PostsListBlock>
+        <StackGrid columnWidth={328} monitorImagesLoaded >
+          {posts.map((post) => (
+            <PostThumbBlock
+              key={post.id}
+              post={post}
+              onClick={openPost}
+            />
+          ))}
+        </StackGrid>
+      </PostsListBlock>
+    );
+  }
 }
 
 export default LoaderHOC("posts")(PostsList);

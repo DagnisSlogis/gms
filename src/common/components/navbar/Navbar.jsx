@@ -21,7 +21,7 @@ import {
 
 export class Navbar extends PureComponent {
   state = {
-    color: "#868a8e",
+    color: "#666",
     bgColor: "rgba(255, 255, 255, 0.98)"
   };
 
@@ -32,7 +32,7 @@ export class Navbar extends PureComponent {
       color: "white",
       bgColor: "rgba(255, 255, 255, 0)"
     } : {
-      color: "#868a8e",
+      color: "#666",
       bgColor: "rgba(255, 255, 255, 0.98)"
     };
   }
@@ -76,7 +76,7 @@ export class Navbar extends PureComponent {
       ) {
         this.setState({
           bgColor: "rgba(255, 255, 255, 0.98)",
-          color: "#868a8e"
+          color: "#666"
         });
       }
     }

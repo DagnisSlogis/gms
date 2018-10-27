@@ -53,7 +53,7 @@ export const DropDownContainer = styled.div`
 export const Item = styled.div`
   padding: 15px 15px;
   font-size: 14px;
-  color: #868A8E;
+  color: #666;
   border-bottom: 1px solid #e8e8e8;
 
   &:hover {

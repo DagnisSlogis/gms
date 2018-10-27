@@ -14,7 +14,7 @@ export class NavButton extends PureComponent {
   };
 
   static defaultProps = {
-    color: "#868a8e"
+    color: "#666"
   };
 
   state = {
