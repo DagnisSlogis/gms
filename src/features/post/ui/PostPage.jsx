@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { isEmpty } from "lodash";
 import renderHTML from "react-render-html";
+import { Spring } from "react-spring";
 
 import { fetchPost } from "../modules/post";
 import { PostTitle, PostToolbar } from "../../post-common";
@@ -37,11 +38,18 @@ class PostPage extends Component {
         <PostHeader>
           <Cover image={_embedded["wp:featuredmedia"][0].source_url} />
         </PostHeader>
-        <PostBody>
-          <PostTitle text={title} />
-          <PostToolbar date={date_gmt} />
-          <PostText>{renderHTML(content)}</PostText>
-        </PostBody>
+        <Spring
+          from={{ transform: 'translateY(50px)', opacity: 0 }}
+          to={{ transform: 'translateY(0)', opacity: 1 }}
+        >
+          {(styles) => (
+            <PostBody style={styles}>
+              <PostTitle text={title} />
+              <PostToolbar date={date_gmt} />
+              <PostText>{renderHTML(content)}</PostText>
+            </PostBody>
+          )}
+        </Spring>
       </Post>
     );
   };

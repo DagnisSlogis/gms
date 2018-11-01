@@ -10,8 +10,13 @@ export const ModalBtn = styled.button`
   margin-top: 200px;
 `;
 
-export const SchoolSVG = styled.img`
-  display: inline-block;
+export const SchoolSVG = styled.div`
+  height: auto;
+  width: 700px;
+
+  svg {
+    stoke: red;
+  }
 `;
 
 export const Header = styled.div`

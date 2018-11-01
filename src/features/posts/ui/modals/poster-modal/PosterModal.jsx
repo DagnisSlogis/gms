@@ -12,7 +12,8 @@ import {
   Poster,
   ModalTop,
   ModalBody,
-  PosterText
+  PosterText,
+  ModalTopContainer,
 } from "./PosterModal.style";
 
 
@@ -26,43 +27,58 @@ export class PosterModal extends PureComponent {
   };
 
   render = () => {
-    const { post, onClose } = this.props;
+    const {
+      post: {
+        _embedded,
+        title: { rendered: title },
+        date_gmt,
+        content: { rendered: content }
+      },
+      onClose,
+      status,
+    } = this.props;
+
     return (
-      <>
+      <Modal
+        open={status}
+        onClose={onClose}
+        closeOnEsc
+        closeOnOverlayClick
+        closeIconSize={24}
+      >
+        <ModalTopContainer>
+          <ModalTop>
+            <Background
+              image={_embedded["wp:featuredmedia"][0].source_url}
+            />
+            <Content>
+              <Poster
+                src={_embedded["wp:featuredmedia"][0].source_url}
+              />
+            </Content>
+          </ModalTop>
+        </ModalTopContainer>
         <Spring
-          from={{ transform: 'translateY(100px)' }}
-          to={{ transform: 'translateY(0)' }}
+          from={{ transform: 'translateY(50px)', opacity: 0 }}
+          to={{ transform: 'translateY(0)', opacity: 1 }}
         >
           {(styles) => (
-            <Modal
-              open={this.props.status}
-              onClose={onClose}
-              closeOnEsc
-              closeOnOverlayClick
-              closeIconSize={24}
-              style={styles}
-            >
-              <ModalTop>
-                <Background
-                  image={post._embedded["wp:featuredmedia"][0].source_url}
-                />
-                <Content>
-                  <Poster
-                    src={post._embedded["wp:featuredmedia"][0].source_url}
-                  />
-                </Content>
-              </ModalTop>
-              <ModalBody>
-                <PostTitle text={renderHTML(post.title.rendered)} noSideMargin />
-                <PostToolbar date={post.date_gmt} noSideMargin />
-                <PosterText>
-                  {renderHTML(post.content.rendered.replace(/<img[^>]*>/g, ""))}
-                </PosterText>
-              </ModalBody>
-            </Modal>
+            <ModalBody style={styles}>
+              <PostTitle
+                text={renderHTML(title)}
+                noSideMargin
+              />
+              <PostToolbar
+                date={date_gmt}
+                noSideMargin
+              />
+              <PosterText>
+                {renderHTML(content.replace(/<img[^>]*>/g, ""))}
+              </PosterText>
+            </ModalBody>
           )}
         </Spring>
-      </>
+      </Modal>
     );
   };
 }

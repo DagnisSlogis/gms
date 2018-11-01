@@ -25,15 +25,21 @@ export const Poster = styled.img `
   max-height: 590px;
 `;
 
-export const ModalTop = styled.div `
+export const ModalTopContainer = styled.div`
   overflow: hidden;
-  height: auto;
-  max-height: 620px;
+  position: relative;
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
 `;
 
+export const ModalTop = styled.div `
+  height: auto;
+  max-height: 620px;
+`;
+
 export const ModalBody = styled.div `
+  overflow: hidden;
+  position: relative;
   padding: 20px 35px;
 `;
 
