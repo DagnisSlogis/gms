@@ -19,15 +19,16 @@ import {
 } from "./PostsPage.style";
 
 
-export function PostsPage({
-  posts,
-  page,
-  fetchPosts,
-  incrementPostsPage,
-  history,
-  openPost,
-  postLoading,
-}) {
+export function PostsPage(props) {
+  const {
+    posts,
+    page,
+    fetchPosts,
+    incrementPostsPage,
+    history,
+    openPost,
+    postLoading,
+  } = props;
   const [ isPosterModalOpen, setIsPosterModalOpen ] = useState(false);
   const [ isGalleryOpen, setIsGalleryOpen ] = useState(false);
   const [ currGalleryImage, setCurrGalleryImage ] = useState(0);
@@ -48,10 +49,10 @@ export function PostsPage({
   }, posts);
 
   function fetchMorePostsWhenBotReached() {
-    if (
-      !isLoadingMorePosts &&
-      window.innerHeight + window.scrollY >= document.body.offsetHeight
-    ) {
+    const { innerHeight, scrollY } = window;
+    const { body: { offsetHeight } } = document;
+
+    if (!isLoadingMorePosts && (innerHeight + scrollY >= offsetHeight)) {
       const nextPage = page + 1;
 
       setIsLoadingMorePosts(true)

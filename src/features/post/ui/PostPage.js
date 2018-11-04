@@ -10,23 +10,24 @@ import { PostTitle, PostToolbar } from "../../post-common";
 import { Post, PostHeader, PostBody, Cover, PostText } from "./PostPage.style";
 
 
-const PostPage = ({
-  post,
-  postId,
-  fetchPost,
-}) => {
-  useEffect(() => {
-    if (isEmpty(post) && postId) fetchPost(postId);
-  }, postId)
-
-  if (isEmpty(post)) return null;
-
+function PostPage(props) {
+  const {
+    post,
+    postId,
+    fetchPost,
+  } = props;
   const {
     _embedded,
     title: { rendered: title },
     date_gmt,
     content: { rendered: content }
   } = post;
+
+  useEffect(() => {
+    if (isEmpty(post) && postId) fetchPost(postId);
+  }, postId)
+
+  if (isEmpty(post)) return null;
 
   return (
     <Post>

@@ -14,16 +14,18 @@ import {
 } from "./PostThumbBlock.styles";
 
 
-export const PostThumbBlock = ({
-  post,
-  post: {
-    _embedded,
-    format,
-    content: { rendered: content },
-    title: { rendered: title },
-  },
-  onClick,
-}) => {
+export function PostThumbBlock (props) {
+  const {
+    post,
+    post: {
+      _embedded,
+      format,
+      content: { rendered: content },
+      title: { rendered: title },
+    },
+    onClick,
+  } = props;
+
   const featuredImg = () =>
     _embedded["wp:featuredmedia"] ?
       _embedded["wp:featuredmedia"]["0"].source_url :
