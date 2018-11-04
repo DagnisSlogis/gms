@@ -1,7 +1,7 @@
 // jest PostThumbBlock
 import React from "react";
 import { shallow } from "enzyme";
-import PostThumbBlock from "./PostThumbBlock";
+import { PostThumbBlock } from "./PostThumbBlock";
 
 import { getSmallThumbnail, formatToLabel } from "../postsHelpers";
 jest.mock("../postsHelpers", () => ({

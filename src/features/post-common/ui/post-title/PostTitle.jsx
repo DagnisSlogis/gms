@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 
 import { Title } from './PostTitle.style';
 
-export const PostTitle = ({ text }) => (
-  <Title noSideMargin>{text}</Title>
+export const PostTitle = ({ text, noSideMargin }) => (
+  <Title noSideMargin={noSideMargin}>{text}</Title>
 );
 
 PostTitle.propTypes = {

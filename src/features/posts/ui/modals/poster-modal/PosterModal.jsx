@@ -1,4 +1,4 @@
-import React, { PureComponent } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import renderHTML from "react-render-html";
 import "react-responsive-modal/lib/react-responsive-modal.css";
@@ -17,68 +17,63 @@ import {
 } from "./PosterModal.style";
 
 
-export class PosterModal extends PureComponent {
-  static propTypes = {
-    status: PropTypes.bool.isRequired,
-    onOpen: PropTypes.func.isRequired,
-    onClose: PropTypes.func.isRequired,
-    post: PropTypes.object,
-    loading: PropTypes.bool
-  };
+export const PosterModal = ({
+  post: {
+    _embedded,
+    title: { rendered: title },
+    date_gmt,
+    content: { rendered: content }
+  },
+  onClose,
+  status,
+}) => (
+  <Modal
+    open={status}
+    onClose={onClose}
+    closeOnEsc
+    closeOnOverlayClick
+    closeIconSize={24}
+  >
+    <ModalTopContainer>
+      <ModalTop>
+        <Background
+          image={_embedded["wp:featuredmedia"][0].source_url}
+        />
+        <Content>
+          <Poster
+            src={_embedded["wp:featuredmedia"][0].source_url}
+          />
+        </Content>
+      </ModalTop>
+    </ModalTopContainer>
+    <Spring
+      from={{ transform: 'translateY(50px)', opacity: 0 }}
+      to={{ transform: 'translateY(0)', opacity: 1 }}
+    >
+      {(styles) => (
+        <ModalBody style={styles}>
+          <PostTitle
+            text={renderHTML(title)}
+            noSideMargin
+          />
+          <PostToolbar
+            date={date_gmt}
+            noSideMargin
+          />
+          <PosterText>
+            {renderHTML(content.replace(/<img[^>]*>/g, ""))}
+          </PosterText>
+        </ModalBody>
+      )}
+    </Spring>
+  </Modal>
+);
 
-  render = () => {
-    const {
-      post: {
-        _embedded,
-        title: { rendered: title },
-        date_gmt,
-        content: { rendered: content }
-      },
-      onClose,
-      status,
-    } = this.props;
+PosterModal.propTypes = {
+  status: PropTypes.bool.isRequired,
+  onOpen: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
+  post: PropTypes.object,
+  loading: PropTypes.bool
+};
 
-    return (
-      <Modal
-        open={status}
-        onClose={onClose}
-        closeOnEsc
-        closeOnOverlayClick
-        closeIconSize={24}
-      >
-        <ModalTopContainer>
-          <ModalTop>
-            <Background
-              image={_embedded["wp:featuredmedia"][0].source_url}
-            />
-            <Content>
-              <Poster
-                src={_embedded["wp:featuredmedia"][0].source_url}
-              />
-            </Content>
-          </ModalTop>
-        </ModalTopContainer>
-        <Spring
-          from={{ transform: 'translateY(50px)', opacity: 0 }}
-          to={{ transform: 'translateY(0)', opacity: 1 }}
-        >
-          {(styles) => (
-            <ModalBody style={styles}>
-              <PostTitle
-                text={renderHTML(title)}
-                noSideMargin
-              />
-              <PostToolbar
-                date={date_gmt}
-                noSideMargin
-              />
-              <PosterText>
-                {renderHTML(content.replace(/<img[^>]*>/g, ""))}
-              </PosterText>
-            </ModalBody>
-          )}
-        </Spring>
-      </Modal>
-    );
-  };
-}

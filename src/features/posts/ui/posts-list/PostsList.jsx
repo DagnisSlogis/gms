@@ -1,11 +1,11 @@
-import React, { PureComponent } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import StackGrid from "react-stack-grid";
 
 import LoaderHOC from "HOC/LoaderHOC";
 
-import PostThumbBlock from "../post-thumb-block/PostThumbBlock";
+import { PostThumbBlock } from "../post-thumb-block/PostThumbBlock";
 
 
 const PostsListBlock = styled.div`
@@ -16,33 +16,34 @@ const PostsListBlock = styled.div`
   overflow: hidden;
 `;
 
-class PostsList extends PureComponent {
-  static propTypes = {
-    posts: PropTypes.array.isRequired,
-    openPost: PropTypes.func
-  };
+function PostsList(props) {
+  const {
+    posts,
+    openPost,
+  } = props;
 
-  static defaultProps = {
-    posts: []
-  };
-
-  render() {
-    const { posts, openPost } = this.props;
-
-    return (
-      <PostsListBlock>
-        <StackGrid columnWidth={328} monitorImagesLoaded >
-          {posts.map((post) => (
-            <PostThumbBlock
-              key={post.id}
-              post={post}
-              onClick={openPost}
-            />
-          ))}
-        </StackGrid>
-      </PostsListBlock>
-    );
-  }
+  return (
+    <PostsListBlock>
+      <StackGrid columnWidth={328} monitorImagesLoaded >
+        {posts.map((post) => (
+          <PostThumbBlock
+            key={post.id}
+            post={post}
+            onClick={openPost}
+          />
+        ))}
+      </StackGrid>
+    </PostsListBlock>
+  );
 }
+
+PostsList.propTypes = {
+  posts: PropTypes.array.isRequired,
+  openPost: PropTypes.func
+};
+
+PostsList.defaultProps = {
+  posts: []
+};
 
 export default LoaderHOC("posts")(PostsList);

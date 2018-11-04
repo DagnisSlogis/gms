@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { noop } from 'lodash';
@@ -18,8 +18,129 @@ import {
   Header,
 } from "./PostsPage.style";
 
-export class PostsPage extends Component {
-  static propTypes = {
+
+export function PostsPage({
+  posts,
+  page,
+  fetchPosts,
+  incrementPostsPage,
+  history,
+  openPost,
+  postLoading,
+}) {
+  const [ isPosterModalOpen, setIsPosterModalOpen ] = useState(false);
+  const [ isGalleryOpen, setIsGalleryOpen ] = useState(false);
+  const [ currGalleryImage, setCurrGalleryImage ] = useState(0);
+  const [ selectedPost, setSelectedPost ] = useState({});
+  const [ isLoadingMorePosts, setIsLoadingMorePosts ] = useState(false);
+
+  useEffect(() => {
+    window.addEventListener("scroll", fetchMorePostsWhenBotReached);
+    if(!posts.length) fetchPosts(page);
+
+    return () => {
+      window.removeEventListener("scroll", fetchMorePostsWhenBotReached);
+    }
+  }, []);
+
+  useEffect(() => {
+    setIsLoadingMorePosts(false);
+  }, posts);
+
+  function fetchMorePostsWhenBotReached() {
+    if (
+      !isLoadingMorePosts &&
+      window.innerHeight + window.scrollY >= document.body.offsetHeight
+    ) {
+      const nextPage = page + 1;
+
+      setIsLoadingMorePosts(true)
+      fetchPosts(nextPage);
+      incrementPostsPage();
+    }
+  };
+
+  function openPostFromList(_, currPost) {
+    openPost(currPost);
+
+    switch (currPost.format) {
+      case 'standard':
+        return history.push(`/post/${currPost.id}`);
+      case 'gallery':
+        onToggleGallery();
+        break;
+      case "image":
+        onOpenModal();
+        break;
+      default:
+        console.log("nothing");
+        break;
+    }
+
+    setSelectedPost(currPost);
+  };
+
+  function onToggleGallery() {
+    setIsGalleryOpen(!isGalleryOpen);
+    setCurrGalleryImage(0);
+  }
+
+  function onOpenModal() {
+    setIsPosterModalOpen(true);
+  }
+
+  function onCloseModal() {
+    setIsPosterModalOpen(false);
+  }
+
+  function onNextImage() {
+    setCurrGalleryImage(currGalleryImage + 1);
+  }
+
+  function onPrevImage() {
+    setCurrGalleryImage(currGalleryImage - 1);
+  }
+
+  function onThumbnailClick(index) {
+    setCurrGalleryImage(index);
+  }
+
+  return (
+    <Page>
+      <Header>
+        <SchoolSVG src={School} />
+      </Header>
+      {isPosterModalOpen && (
+        <PosterModal
+          status={isPosterModalOpen}
+          onOpen={onOpenModal}
+          onClose={onCloseModal}
+          post={selectedPost}
+          loading={postLoading}
+        />
+      )}
+      {(selectedPost && isGalleryOpen) && (
+        <Lightbox
+          images={getGalleryPostImages(selectedPost, selectedPost.title.rendered)}
+          isOpen={isGalleryOpen}
+          onClose={onToggleGallery}
+          backdropClosesModal
+          imageCountSeparator=' no '
+          showThumbnails
+          onClickPrev={onPrevImage}
+          onClickNext={onNextImage}
+          onClickThumbnail={onThumbnailClick}
+          onThumbnailClick={onThumbnailClick}
+          currentImage={currGalleryImage}
+        />
+      )}
+      <PostsList posts={posts} openPost={openPostFromList} />
+      {isLoadingMorePosts && (<p>Loading more posts!</p>) }
+    </Page>
+  );
+};
+
+PostsPage.propTypes = {
     posts: PropTypes.array,
     post: PropTypes.object,
     page: PropTypes.number,
@@ -29,145 +150,11 @@ export class PostsPage extends Component {
     postLoading: PropTypes.bool,
   };
 
-  static defaultProps = {
-    posts: [],
-    post: {},
-    fetchPosts: noop,
-    openPost: noop,
-  }
-
-  state = {
-    posterModalOpen: false,
-    isGalleryOpen: false,
-    currGalleryImage: 0,
-    selectedPost: {},
-    loadingMorePosts: false
-  };
-
-  componentDidMount = () => {
-    const { fetchPosts, posts, page } = this.props;
-
-    window.addEventListener("scroll", this.fetchMorePostsWhenBotReached);
-    if(!posts.length) fetchPosts(page);
-  };
-
-  componentWillUnmount = () => {
-    window.removeEventListener("scroll", this.fetchMorePostsWhenBotReached);
-  };
-
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    if (prevProps.posts.length !== this.props.posts.length) {
-      this.setState(prevState => ({
-        loadingMorePosts: false
-      }));
-    }
-  }
-
-  fetchMorePostsWhenBotReached = () => {
-    const {
-      page,
-      fetchPosts,
-      incrementPostsPage,
-    } = this.props;
-    const { loadingMorePosts } = this.state;
-
-    if (
-      !loadingMorePosts &&
-      window.innerHeight + window.scrollY >= document.body.offsetHeight
-    ) {
-      const nextPage = page + 1;
-
-      this.setState(prevState => ({ loadingMorePosts: true }));
-      fetchPosts(nextPage);
-      incrementPostsPage();
-    }
-  };
-
-  openPost = (event, post) => {
-    const { history, openPost } = this.props;
-    openPost(post);
-    switch (post.format) {
-      case 'standard':
-        return history.push(`/post/${post.id}`);
-      case 'gallery':
-        this.onToggleGallery();
-        break;
-      case "image":
-        this.onOpenModal();
-        break;
-      default:
-        console.log("nothing");
-        break;
-    }
-    this.setState({ selectedPost: post });
-  };
-
-  onToggleGallery = () => this.setState((prevState) => ({
-    isGalleryOpen: !prevState.isGalleryOpen,
-    currGalleryImage: 0,
-  }));
-
-  onOpenModal = () => this.setState({ posterModalOpen: true });
-
-  onCloseModal = () => this.setState({ posterModalOpen: false });
-
-  onNextImage = () => this.setState((prevState) => ({
-    currGalleryImage: prevState.currGalleryImage + 1,
-  }));
-
-  onPrevImage = () => this.setState((prevState) => ({
-    currGalleryImage: prevState.currGalleryImage - 1,
-  }));
-
-  onThumbnailClick = (currGalleryImage) => this.setState({ currGalleryImage });
-
-  render = () => {
-    const {
-      postLoading,
-      posts,
-    } = this.props;
-    const {
-      posterModalOpen,
-      isGalleryOpen,
-      selectedPost,
-      loadingMorePosts,
-      currGalleryImage,
-    } = this.state;
-
-    return (
-      <Page>
-        <Header>
-          <SchoolSVG src={School} />
-        </Header>
-        {posterModalOpen && (
-          <PosterModal
-            status={posterModalOpen}
-            onOpen={this.onOpenModal}
-            onClose={this.onCloseModal}
-            post={selectedPost}
-            loading={postLoading}
-          />
-        )}
-        {(selectedPost && isGalleryOpen) && (
-          <Lightbox
-            images={getGalleryPostImages(selectedPost, selectedPost.title.rendered)}
-            isOpen={isGalleryOpen}
-            onClose={this.onToggleGallery}
-            backdropClosesModal
-            imageCountSeparator=' no '
-            showThumbnails
-            onClickPrev={this.onPrevImage}
-            onClickNext={this.onNextImage}
-            onClickThumbnail={this.onThumbnailClick}
-            onThumbnailClick={this.onClickThumbnail}
-            currentImage={currGalleryImage}
-          />
-        )}
-        <PostsList posts={posts} openPost={this.openPost} />
-        {loadingMorePosts && (<p>Loading more posts!</p>) }
-      </Page>
-    );
-  };
+PostsPage.defaultProps = {
+  posts: [],
+  post: {},
+  fetchPosts: noop,
+  openPost: noop,
 }
 
 const mapStateToProps = (state, ownProps) => {
