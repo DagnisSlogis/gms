@@ -16,12 +16,6 @@ function PostPage(props) {
     postId,
     fetchPost,
   } = props;
-  const {
-    _embedded,
-    title: { rendered: title },
-    date_gmt,
-    content: { rendered: content }
-  } = post;
 
   useEffect(() => {
     if (isEmpty(post) && postId) fetchPost(postId);
@@ -32,7 +26,7 @@ function PostPage(props) {
   return (
     <Post>
       <PostHeader>
-        <Cover image={_embedded["wp:featuredmedia"][0].source_url} />
+        <Cover image={post._embedded["wp:featuredmedia"][0].source_url} />
       </PostHeader>
       <Spring
         from={{ transform: 'translateY(50px)', opacity: 0 }}
@@ -40,9 +34,9 @@ function PostPage(props) {
       >
         {(styles) => (
           <PostBody style={styles}>
-            <PostTitle text={title} />
-            <PostToolbar date={date_gmt} />
-            <PostText>{renderHTML(content)}</PostText>
+            <PostTitle text={post.title.rendered} />
+            <PostToolbar date={post.date_gmt} />
+            <PostText>{renderHTML(post.content.rendered)}</PostText>
           </PostBody>
         )}
       </Spring>
