@@ -19,6 +19,23 @@ import {
 } from "./PostsPage.style";
 
 
+PostsPage.propTypes = {
+  posts: PropTypes.array,
+  post: PropTypes.object,
+  page: PropTypes.number,
+  fetchPosts: PropTypes.func,
+  openPost: PropTypes.func,
+  history: PropTypes.object,
+  postLoading: PropTypes.bool,
+};
+
+PostsPage.defaultProps = {
+posts: [],
+post: {},
+fetchPosts: noop,
+openPost: noop,
+}
+
 export function PostsPage(props) {
   const {
     posts,
@@ -34,32 +51,30 @@ export function PostsPage(props) {
   const [ currGalleryImage, setCurrGalleryImage ] = useState(0);
   const [ selectedPost, setSelectedPost ] = useState({});
   const [ isLoadingMorePosts, setIsLoadingMorePosts ] = useState(false);
+  const windowYScroll = useWindowYScroll();
 
   useEffect(() => {
-    window.addEventListener("scroll", fetchMorePostsWhenBotReached);
-    if(!posts.length) fetchPosts(page);
-
-    return () => {
-      window.removeEventListener("scroll", fetchMorePostsWhenBotReached);
-    }
+    loadMorePosts();
   }, []);
+
+  useEffect(() => {
+    const { body: { offsetHeight } } = document;
+
+    if (!isLoadingMorePosts && (windowYScroll >= offsetHeight)) {
+      loadMorePosts(1);
+    }
+  }, [windowYScroll]);
 
   useEffect(() => {
     setIsLoadingMorePosts(false);
   }, posts);
 
-  function fetchMorePostsWhenBotReached() {
-    const { innerHeight, scrollY } = window;
-    const { body: { offsetHeight } } = document;
-
-    if (!isLoadingMorePosts && (innerHeight + scrollY >= offsetHeight)) {
-      const nextPage = page + 1;
-
-      setIsLoadingMorePosts(true)
-      fetchPosts(nextPage);
-      incrementPostsPage();
-    }
-  };
+  function loadMorePosts(increment = 0) {
+    console.log('called');
+    fetchPosts(page + increment);
+    incrementPostsPage();
+    setIsLoadingMorePosts(true);
+  }
 
   function openPostFromList(_, currPost) {
     openPost(currPost);
@@ -141,30 +156,11 @@ export function PostsPage(props) {
   );
 };
 
-PostsPage.propTypes = {
-    posts: PropTypes.array,
-    post: PropTypes.object,
-    page: PropTypes.number,
-    fetchPosts: PropTypes.func,
-    openPost: PropTypes.func,
-    history: PropTypes.object,
-    postLoading: PropTypes.bool,
-  };
-
-PostsPage.defaultProps = {
-  posts: [],
-  post: {},
-  fetchPosts: noop,
-  openPost: noop,
-}
-
-const mapStateToProps = (state, ownProps) => {
-  return {
-    posts: state.posts,
-    postLoading: state.postLoading,
-    page: state.postsPage,
-  };
-};
+const mapStateToProps = (state) => ({
+  posts: state.posts,
+  postLoading: state.postLoading,
+  page: state.postsPage,
+});
 
 const mapDispatchToProps = {
   fetchPosts,
@@ -175,3 +171,24 @@ const mapDispatchToProps = {
 export const PostsPageConnected = connect(mapStateToProps, mapDispatchToProps)(
   PostsPage
 );
+
+function useWindowYScroll() {
+  const isClient = typeof window === 'object';
+  const [ windowYScroll, setWindowYScroll ] = useState(0);
+
+  function handleWindowYScroll() {
+    const { innerHeight, scrollY } = window;
+
+    setWindowYScroll(innerHeight + scrollY);
+  }
+
+  useEffect(() => {
+    if (!isClient) return false;
+
+    window.addEventListener("scroll", handleWindowYScroll);
+
+    return () => window.removeEventListener("scroll", handleWindowYScroll);
+  }, []);
+
+  return windowYScroll;
+}
