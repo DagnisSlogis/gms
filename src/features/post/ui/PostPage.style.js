@@ -17,7 +17,7 @@ export const PostBody = styled.div`
 export const Cover = styled.div`
   position: relative;
   background: linear-gradient( rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.35) ), url("${props =>
-    props.image}") center center fixed no-repeat;
+    props.image}") center top no-repeat;
   width: 100%;
   height: 350px;
   background-size: cover;
@@ -30,7 +30,7 @@ export const PostText = styled.div`
   font-size: 16px;
   color: #515151;
   line-height: 1.4;
-  margin: 20px;
+  margin: 30px 20px 20px 20px;
 
   * {
     font-family: "PT Serif", serif;

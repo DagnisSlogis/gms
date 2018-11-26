@@ -2,10 +2,9 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { noop } from 'lodash';
-import Lightbox from 'react-images';
 
 import School from "assets/images/school.svg";
-import { getGalleryPostImages } from 'utils/contentUtils';
+import { useWindowYScroll } from 'hooks';
 
 import { fetchPosts } from "../modules/posts";
 import { incrementPostsPage } from '../modules/postsPage';
@@ -47,11 +46,9 @@ export function PostsPage(props) {
     postLoading,
   } = props;
   const [ isPosterModalOpen, setIsPosterModalOpen ] = useState(false);
-  const [ isGalleryOpen, setIsGalleryOpen ] = useState(false);
-  const [ currGalleryImage, setCurrGalleryImage ] = useState(0);
   const [ selectedPost, setSelectedPost ] = useState({});
   const [ isLoadingMorePosts, setIsLoadingMorePosts ] = useState(false);
-  const windowYScroll = useWindowYScroll();
+  const [ windowYScroll ] = useWindowYScroll();
 
   useEffect(() => {
     loadMorePosts();
@@ -60,7 +57,7 @@ export function PostsPage(props) {
   useEffect(() => {
     const { body: { offsetHeight } } = document;
 
-    if (!isLoadingMorePosts && (windowYScroll >= offsetHeight)) {
+    if (!isLoadingMorePosts && (offsetHeight > 0 && windowYScroll >= offsetHeight)) {
       loadMorePosts(1);
     }
   }, [windowYScroll]);
@@ -81,10 +78,8 @@ export function PostsPage(props) {
 
     switch (currPost.format) {
       case 'standard':
-        return history.push(`/post/${currPost.id}`);
       case 'gallery':
-        onToggleGallery();
-        break;
+        return history.push(`/post/${currPost.id}`);
       case "image":
         onOpenModal();
         break;
@@ -96,29 +91,12 @@ export function PostsPage(props) {
     setSelectedPost(currPost);
   };
 
-  function onToggleGallery() {
-    setIsGalleryOpen(!isGalleryOpen);
-    setCurrGalleryImage(0);
-  }
-
   function onOpenModal() {
     setIsPosterModalOpen(true);
   }
 
   function onCloseModal() {
     setIsPosterModalOpen(false);
-  }
-
-  function onNextImage() {
-    setCurrGalleryImage(currGalleryImage + 1);
-  }
-
-  function onPrevImage() {
-    setCurrGalleryImage(currGalleryImage - 1);
-  }
-
-  function onThumbnailClick(index) {
-    setCurrGalleryImage(index);
   }
 
   return (
@@ -133,21 +111,6 @@ export function PostsPage(props) {
           onClose={onCloseModal}
           post={selectedPost}
           loading={postLoading}
-        />
-      )}
-      {(selectedPost && isGalleryOpen) && (
-        <Lightbox
-          images={getGalleryPostImages(selectedPost, selectedPost.title.rendered)}
-          isOpen={isGalleryOpen}
-          onClose={onToggleGallery}
-          backdropClosesModal
-          imageCountSeparator=' no '
-          showThumbnails
-          onClickPrev={onPrevImage}
-          onClickNext={onNextImage}
-          onClickThumbnail={onThumbnailClick}
-          onThumbnailClick={onThumbnailClick}
-          currentImage={currGalleryImage}
         />
       )}
       <PostsList posts={posts} openPost={openPostFromList} />
@@ -171,24 +134,3 @@ const mapDispatchToProps = {
 export const PostsPageConnected = connect(mapStateToProps, mapDispatchToProps)(
   PostsPage
 );
-
-function useWindowYScroll() {
-  const isClient = typeof window === 'object';
-  const [ windowYScroll, setWindowYScroll ] = useState(0);
-
-  function handleWindowYScroll() {
-    const { innerHeight, scrollY } = window;
-
-    setWindowYScroll(innerHeight + scrollY);
-  }
-
-  useEffect(() => {
-    if (!isClient) return false;
-
-    window.addEventListener("scroll", handleWindowYScroll);
-
-    return () => window.removeEventListener("scroll", handleWindowYScroll);
-  }, []);
-
-  return windowYScroll;
-}

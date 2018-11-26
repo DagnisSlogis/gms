@@ -3,6 +3,8 @@ import {
   withRouter
 } from "react-router-dom";
 
+import { useWindowYScroll } from 'hooks';
+
 import * as Icon from "../svg/navbar";
 import { NavButton } from '../button';
 import {
@@ -24,47 +26,39 @@ export function Navbar(props) {
   } = props;
   const [ color, setColor ] = useState('#666');
   const [ bgColor, setBgColor ] = useState('rgba(255, 255, 255, 0.98)');
+  const [ windowYScroll ] = useWindowYScroll();
   const _container = useRef(null);
   const isInSinglePostPage = /\/post\//;
 
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
+    if (isInSinglePostPage.test(pathname)) {
+      const opacity = 1 - (280 - windowYScroll) / 100;
 
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
+      if (opacity < 0.25) {
+        setColor('#fff')
+      } else if (opacity > 0.25 && opacity < 0.5) {
+        setColor('#7f7f7f')
+      } else {
+        setColor('#666');
+      }
+
+      if (opacity <= 1) {
+        setBgColor(`rgba(255, 255, 255, ${opacity})`)
+      } else if (opacity > 1 && bgColor !== 'rgba(255, 255, 255, 0.98)') {
+        setBgColor('rgba(255, 255, 255, 0.98)');
+      }
     }
-  }, []);
+  }, [windowYScroll]);
 
   useEffect(() => {
     if (isInSinglePostPage.test(pathname)) {
-      setColor('white');
+      setColor('#fff');
       setBgColor('rgba(255, 255, 255, 0)');
     } else {
       setColor('#666');
       setBgColor('rgba(255, 255, 255, 0.98)');
     }
-  }, pathname)
-
-  function handleScroll() {
-    const { scrollY } = window;
-
-    if (scrollY > 240 && isInSinglePostPage.test(pathname)) {
-      const opacity = 1 - (340 - scrollY) / 100;
-
-      if (opacity < 0.25) {
-        setColor('#e5e8ea')
-      } else if (opacity > 0.25 && opacity < 0.5) {
-        setColor('#b7babc')
-      } else if (opacity > 0.5 && opacity < 0.75) {
-        setColor('#a8acaf')
-      } else if (opacity <= 1) {
-        setBgColor(`rgba(255, 255, 255, ${opacity})`)
-      } else if (opacity > 1 && bgColor !== 'rgba(255, 255, 255, 0.98)') {
-        setBgColor('rgba(255, 255, 255, 0.98)');
-        setColor('#666');
-      }
-    }
-  };
+  }, [pathname])
 
   return (
     <NavContainer
