@@ -5,27 +5,22 @@ import { DropDown } from '../../drop-down';
 import { NavBtn, NavLink } from './NavButton.style';
 
 
-export function NavButton (props) {
-  const {
-    color,
-    link,
-    label,
-    subLinks,
-  } = props;
+export const NavButton = ({
+  color,
+  path,
+  label,
+  subLinks,
+}) => {
   const [ isHovered, setIsHovered ] = useState(false);
 
-  function onMouseEnter() {
-    setIsHovered(true);
-  }
+  const onMouseEnter = () => setIsHovered(true);
 
-  function onMouseLeave() {
-    setIsHovered(false);
-  }
+  const onMouseLeave = () => setIsHovered(false);
 
   return (
     <NavBtn onMouseLeave={onMouseLeave}>
       <NavLink
-        to={link}
+        to={path}
         onMouseEnter={onMouseEnter}
         color={color}
       >
@@ -43,7 +38,7 @@ export function NavButton (props) {
 
 NavButton.propTypes = {
   label: PropTypes.string.isRequired,
-  link: PropTypes.string.isRequired,
+  path: PropTypes.string.isRequired,
   subLinks: PropTypes.array,
   light: PropTypes.string
 };

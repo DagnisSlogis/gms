@@ -11,7 +11,7 @@ import {
   getGalleryPostImages,
   hasGallery,
   getContentWithoutGallery,
-} from 'utils/contentUtils';
+} from 'utils';
 
 import { fetchPost } from "../modules/post";
 import { PostTitle, PostToolbar } from "../../post-common";

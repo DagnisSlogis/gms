@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 
 export const NavContainer = styled.div `
@@ -19,8 +20,9 @@ export const Nav = styled.nav `
   text-align: right;
 `;
 
-export const LogoWithText = styled.div `
+export const LogoWithText = styled(Link)`
   display: flex;
+  text-decoration: none;
   align-items: center;
 `;
 

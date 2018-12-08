@@ -3,7 +3,8 @@ import styled from "styled-components";
 
 const LogoSVG = styled.svg`
   width: auto;
-  height: 47px;
+  height: ${({ height }) => height || 47}px;
+  width: ${({ width }) => width || 42}px;
   margin: 5px;
 `;
 
@@ -17,6 +18,7 @@ export const Logo = props => (
     version="1.1"
     viewBox="0 0 153 172"
     xmlns="http://www.w3.org/2000/svg"
+    {...props}
   >
     <g fill="none" fillRule="evenodd">
       <LogoLines color={props.color}>

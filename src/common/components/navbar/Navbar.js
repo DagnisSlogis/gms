@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import {
-  withRouter
+  withRouter,
 } from "react-router-dom";
 
 import { useWindowYScroll } from 'hooks';
@@ -20,10 +20,7 @@ import {
 } from './Navbar.style';
 
 
-export function Navbar(props) {
-  const {
-    location: { pathname }
-  } = props;
+export const  Navbar = ({ location: { pathname }} ) => {
   const [ color, setColor ] = useState('#666');
   const [ bgColor, setBgColor ] = useState('rgba(255, 255, 255, 0.98)');
   const [ windowYScroll ] = useWindowYScroll();
@@ -66,7 +63,7 @@ export function Navbar(props) {
       bgColor={bgColor}
     >
       <Nav>
-        <LogoWithText>
+        <LogoWithText to='/'>
           <Logo color={color}/>
           <LogoText color={color}>
             <TopTitle>GULBENES</TopTitle>
@@ -76,36 +73,36 @@ export function Navbar(props) {
         <div>
           <NavButton
             label="Jaunumi"
-            link="/"
+            path='/'
             color={color}
           />
           <NavButton
             label="Par Mums"
-            link="/"
+            path='/par-mums'
             subLinks = {[
               {
                 label: "Kontakti",
-                link: "",
+                path: '/par-mums',
                 icon: Icon.Contacts
               },
               {
                 label: "Par Skolu",
-                link: "",
+                path: '/par-mums',
                 icon: Icon.School
               },
               {
                 label: "Kolektīvs",
-                link: "",
+                path: '/par-mums',
                 icon: Icon.Peoples
               },
               {
                 label: "Klases",
-                link: "",
+                path: '/par-mums',
                 icon: Icon.Clases
               },
               {
                 label: "Vēsture",
-                link: "",
+                path: '/par-mums',
                 icon: Icon.History
               }
             ]}
@@ -113,26 +110,26 @@ export function Navbar(props) {
           />
           <NavButton
             label="Mācības"
-            link="/"
+            path='/macibas'
             subLinks = {[
               {
                 label: "Skolas Dokumenti",
-                link: "",
+                path: '/macibas',
                 icon: Icon.Documents
               },
               {
                 label: "Par Programmu",
-                link: "",
+                path: '/macibas',
                 icon: Icon.Info
               },
               {
                 label: "Priekšmeti",
-                link: "",
+                path: '/macibas',
                 icon: Icon.Subjects
               },
               {
                 label: "Stundu saraksts",
-                link: "",
+                path: '/macibas',
                 icon: Icon.Timetable
               }
             ]}
@@ -140,36 +137,31 @@ export function Navbar(props) {
           />
           <NavButton
             label="Projekti un Izstādes"
-            link="/"
-            color={color}
-          />
-          <NavButton
-            label="Galerija"
-            link="/"
+            path='/projekti'
             color={color}
           />
           <NavButton
             label="Biedrība &quot;Piektā Māja&quot;"
-            link="/"
+            path='/piekta-maja'
             subLinks={[
               {
                 label: "Kontakti",
-                link: "",
+                path: '/piekta-maja',
                 icon: Icon.Contacts
               },
               {
                 label: "Par Apvienību",
-                link: "",
+                path: '/piekta-maja',
                 icon: Icon.Info
               },
               {
                 label: "Kursi",
-                link: "",
+                path: '/piekta-maja',
                 icon: Icon.Course
               },
               {
                 label: "Projekti",
-                link: "",
+                path: '/piekta-maja',
                 icon: Icon.Idea
               }
             ]}
@@ -181,4 +173,4 @@ export function Navbar(props) {
   );
 }
 
-export const NavbarWithRouter = withRouter((props) => <Navbar {...props}/>);
+export const NavbarWithRouter = withRouter(Navbar);

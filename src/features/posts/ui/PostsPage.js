@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { noop } from 'lodash';
 
-import School from "assets/images/school.svg";
 import { useWindowYScroll } from 'hooks';
 
 import { fetchPosts } from "../modules/posts";
@@ -13,8 +12,6 @@ import PostsList from "./posts-list/PostsList";
 import { PosterModal } from "./modals";
 import {
   Page,
-  SchoolSVG,
-  Header,
 } from "./PostsPage.style";
 
 
@@ -79,7 +76,7 @@ export function PostsPage(props) {
     switch (currPost.format) {
       case 'standard':
       case 'gallery':
-        return history.push(`/post/${currPost.id}`);
+        return history.push(`/raksts/${currPost.id}`);
       case "image":
         onOpenModal();
         break;
@@ -101,9 +98,6 @@ export function PostsPage(props) {
 
   return (
     <Page>
-      <Header>
-        <SchoolSVG src={School} />
-      </Header>
       {isPosterModalOpen && (
         <PosterModal
           status={isPosterModalOpen}

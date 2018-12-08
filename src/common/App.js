@@ -1,9 +1,13 @@
-import React from "react";
-import { PostsPageConnected } from "../features/posts";
-import { PostPageConnected } from "../features/post";
-import { BrowserRouter, Route } from "react-router-dom";
+import React from 'react';
+import { BrowserRouter, Route } from 'react-router-dom';
 
-import { NavbarWithRouter } from "./components/navbar";
+import { PostsPageConnected } from 'features/posts';
+import { PostPageConnected } from 'features/post';
+import { AboutUsConnected } from 'features/about-us';
+import { LearningConnected } from 'features/learning';
+import { ProjectsConnected } from 'features/projects';
+import { FifthHouseConnected } from 'features/fifth-house';
+import { NavbarWithRouter } from 'common/components/navbar';
 
 
 const App = () => (
@@ -11,7 +15,11 @@ const App = () => (
     <div>
       <NavbarWithRouter />
       <Route exact path="/" component={PostsPageConnected} />
-      <Route path="/post/:id" component={PostPageConnected} />
+      <Route exact path='/par-mums' component={AboutUsConnected} />
+      <Route exact path='/macibas' component={LearningConnected} />
+      <Route exact path='/projekti' component={ProjectsConnected} />
+      <Route exact path='/piekta-maja' component={FifthHouseConnected} />
+      <Route path="/raksts/:id" component={PostPageConnected} />
     </div>
   </BrowserRouter>
 );

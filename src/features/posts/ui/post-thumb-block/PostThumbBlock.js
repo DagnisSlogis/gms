@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import SmartGallery from 'react-smart-gallery';
 
-import { getGalleryImages } from 'utils/contentUtils';
+import { getGalleryImages } from 'utils';
 
 import { getSmallThumbnail, formatToLabel } from "../../utils/postsHelpers";
 import {
