@@ -4,11 +4,7 @@ export const useWindowYScroll = () => {
   const isClient = typeof window === 'object';
   const [ windowYScroll, setWindowYScroll ] = useState(0);
 
-  function handleWindowYScroll() {
-    const { scrollY } = window;
-
-    setWindowYScroll(scrollY);
-  }
+  const handleWindowYScroll = () => setWindowYScroll(window.scrollY);
 
   useEffect(() => {
     if (!isClient) return false;
