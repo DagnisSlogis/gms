@@ -22,7 +22,7 @@ import {
 
 export const  Navbar = ({ location: { pathname }} ) => {
   const [ color, setColor ] = useState('#666');
-  const [ bgColor, setBgColor ] = useState('rgba(255, 255, 255, 0.98)');
+  const [ bgColor, setBgColor ] = useState('rgba(255, 255, 255, 1)');
   const [ windowYScroll ] = useWindowYScroll();
   const _container = useRef(null);
   const isInSinglePostPage = /\/post\//;
@@ -41,8 +41,8 @@ export const  Navbar = ({ location: { pathname }} ) => {
 
       if (opacity <= 1) {
         setBgColor(`rgba(255, 255, 255, ${opacity})`)
-      } else if (opacity > 1 && bgColor !== 'rgba(255, 255, 255, 0.98)') {
-        setBgColor('rgba(255, 255, 255, 0.98)');
+      } else if (opacity > 1 && bgColor !== 'rgba(255, 255, 255, 1)') {
+        setBgColor('rgba(255, 255, 255, 1)');
       }
     }
   }, [windowYScroll]);
@@ -53,7 +53,7 @@ export const  Navbar = ({ location: { pathname }} ) => {
       setBgColor('rgba(255, 255, 255, 0)');
     } else {
       setColor('#666');
-      setBgColor('rgba(255, 255, 255, 0.98)');
+      setBgColor('rgba(255, 255, 255, 1)');
     }
   }, [pathname])
 

@@ -16,7 +16,7 @@ import { PosterModal } from "./modals";
 import { Page } from "./PostsPage.style";
 
 
-export const PostsPage = ({ posts, fetchPosts, history, openPost }) => {
+export const PostsPage = ({ posts, postsPage, fetchPosts, history, openPost }) => {
   const [ isPosterModalOpen, setIsPosterModalOpen ] = useState(false);
   const [ selectedPost, setSelectedPost ] = useState({});
 
@@ -51,6 +51,7 @@ export const PostsPage = ({ posts, fetchPosts, history, openPost }) => {
         />
       )}
       <InfiniteScroll
+        pageStart={postsPage}
         loadMore={fetchPosts}
         loader={<div key={0}>Loading ...</div>}
         hasMore
@@ -64,7 +65,7 @@ export const PostsPage = ({ posts, fetchPosts, history, openPost }) => {
 
 PostsPage.propTypes = {
   posts: PropTypes.array,
-  post: PropTypes.object,
+  postsPage: PropTypes.number,
   fetchPosts: PropTypes.func,
   openPost: PropTypes.func,
   history: PropTypes.object,
@@ -72,12 +73,12 @@ PostsPage.propTypes = {
 
 PostsPage.defaultProps = {
   posts: [],
-  post: {},
+  postsPage: 0,
   fetchPosts: noop,
   openPost: noop,
 }
 
-const mapStateToProps = ({ posts }) => ({ posts });
+const mapStateToProps = ({ posts, postsPage }) => ({ posts, postsPage });
 
 const mapDispatchToProps = {
   fetchPosts,

@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import StackGrid from "react-stack-grid";
 import { noop } from 'lodash';
+import Masonry from 'react-masonry-component';
 
 import { PostThumbBlock } from "../post-thumb-block/PostThumbBlock";
 
@@ -16,7 +16,7 @@ const PostsListBlock = styled.div`
 
 export const PostsList = ({ posts, openPost }) => (
   <PostsListBlock>
-    <StackGrid columnWidth={328} monitorImagesLoaded >
+    <Masonry>
       {posts.map((post) => (
         <PostThumbBlock
           key={post.id}
@@ -24,7 +24,7 @@ export const PostsList = ({ posts, openPost }) => (
           onClick={openPost}
         />
       ))}
-    </StackGrid>
+    </Masonry>
   </PostsListBlock>
 );
 

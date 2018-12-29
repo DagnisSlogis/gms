@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import SmartGallery from 'react-smart-gallery';
+import { noop } from 'lodash';
 
 import { getGalleryImages } from 'utils';
 
@@ -62,6 +63,20 @@ export function PostThumbBlock (props) {
 }
 
 PostThumbBlock.propTypes = {
-  post: PropTypes.object.isRequired,
-  onClick: PropTypes.func.isRequired
+  post: PropTypes.shape({
+    _embedded: PropTypes.string,
+    format: PropTypes.string,
+    content: PropTypes.shape({
+      rendered: PropTypes.string,
+    }),
+    title: PropTypes.shape({
+      rendered: PropTypes.string,
+    })
+  }),
+  onClick: PropTypes.func
+};
+
+PostThumbBlock.defaultProps = {
+  post: {},
+  onClick: noop,
 };

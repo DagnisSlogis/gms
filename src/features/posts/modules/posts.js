@@ -3,7 +3,7 @@ import { get } from "axios";
 import { API_URL } from 'config/APIConfig';
 import { createReducerTypes } from 'utils/dataModule';
 
-const posts = createReducerTypes('posts');
+export const posts = createReducerTypes('posts');
 
 export default function reducer(state = [], { type, payload }) {
   switch (type) {
