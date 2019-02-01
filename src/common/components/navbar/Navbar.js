@@ -25,10 +25,13 @@ export const  Navbar = ({ location: { pathname }} ) => {
   const [ bgColor, setBgColor ] = useState('rgba(255, 255, 255, 1)');
   const [ windowYScroll ] = useWindowYScroll();
   const _container = useRef(null);
-  const isInSinglePostPage = /\/post\//;
+  const shouldBeTransparent = (
+    /\/post\//.test(pathname) ||
+    pathname === '/'
+  );
 
   useEffect(() => {
-    if (isInSinglePostPage.test(pathname)) {
+    if (shouldBeTransparent) {
       const opacity = 1 - (280 - windowYScroll) / 100;
 
       if (opacity < 0.25) {
@@ -48,7 +51,8 @@ export const  Navbar = ({ location: { pathname }} ) => {
   }, [windowYScroll]);
 
   useEffect(() => {
-    if (isInSinglePostPage.test(pathname)) {
+    console.log(shouldBeTransparent);
+    if (shouldBeTransparent) {
       setColor('#fff');
       setBgColor('rgba(255, 255, 255, 0)');
     } else {

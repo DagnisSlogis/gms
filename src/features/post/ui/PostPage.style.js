@@ -4,7 +4,8 @@ export const Post = styled.div``;
 
 export const PostHeader = styled.div`
   width: 100%;
-  height: 350px;
+  height: 80vh;
+  max-height: 800px;
   overflow: hidden;
 `;
 
@@ -19,7 +20,8 @@ export const Cover = styled.div`
   background: linear-gradient( rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.35) ), url("${props =>
     props.image}") center top no-repeat;
   width: 100%;
-  height: 350px;
+  height: 80vh;
+  max-height: 800px;
   background-size: cover;
   filter: blur(5px);
   transform: scale(1.3);

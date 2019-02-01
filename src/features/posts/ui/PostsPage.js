@@ -13,7 +13,9 @@ import { fetchPosts } from "../modules/posts";
 import { openPost } from "../../post/modules/post";
 import { PostsList } from "./posts-list/PostsList";
 import { PosterModal } from "./modals";
-import { Page } from "./PostsPage.style";
+import {
+  Background,
+} from './PostsPage.style';
 
 
 export const PostsPage = ({ posts, postsPage, fetchPosts, history, openPost }) => {
@@ -41,7 +43,8 @@ export const PostsPage = ({ posts, postsPage, fetchPosts, history, openPost }) =
   const onTogglePostModal = () => setIsPosterModalOpen(!isPosterModalOpen);
 
   return (
-    <Page>
+    <div>
+      <Background image={require('assets/images/bg.jpg')} />
       {isPosterModalOpen && (
         <PosterModal
           status={isPosterModalOpen}
@@ -59,7 +62,7 @@ export const PostsPage = ({ posts, postsPage, fetchPosts, history, openPost }) =
       >
         <PostsList posts={posts} openPost={openPostFromList} />
       </InfiniteScroll>
-    </Page>
+    </div>
   );
 };
 
